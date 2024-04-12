@@ -1,0 +1,1 @@
+{"id":2,"name":"Tarmogoyf","cost":2000,"color":"Verde","type":"Criatura","rarity":"Mitica","rules":"2","power":50,"resistance":100}

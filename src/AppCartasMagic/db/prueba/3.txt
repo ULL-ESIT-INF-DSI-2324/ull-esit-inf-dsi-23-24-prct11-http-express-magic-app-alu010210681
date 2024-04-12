@@ -1,0 +1,1 @@
+{"id":3,"name":"Tarmogoyf","cost":2000,"color":"Verde","type":"PlanesWalker","rarity":"Mitica","rules":"2"}
