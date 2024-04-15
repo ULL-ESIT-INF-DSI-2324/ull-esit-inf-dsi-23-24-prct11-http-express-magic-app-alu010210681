@@ -68,5 +68,3 @@ Los objetivos esperados de la aplicación de gestión de colecciones de cartas s
 - [Informe de la práctica](https://ull-esit-inf-dsi-2324.github.io/prct10-fs-proc-sockets-magic-app/)
 
 # <span style="color: #7253ed;">Conclusion</span>
-
-La práctica de crear una aplicación cliente/servidor me ha servido para adquirir un mayor conocimiento de las comunicaciones de red mediante sockets y he aprendido más sobre la gestión de eventos en un entorno asíncrono. El uso de patrones de callback para interactuar con la clase gestora de Cartas me resultó un desafío, especialmente al integrarlos con el código existente, pude solucionarlo leyendo más en detalle la documentación y como se implementan. 

@@ -1,5 +1,6 @@
 import express from 'express';
-import { GestorCartas } from "./AppCartasMagic/GestorCartas.js";
+import { GestorCartas } from "./AppCartasMagic/GestorCartasCallBack.js";
+
 const app = express();
 app.use(express.json()); 
 
@@ -59,14 +60,14 @@ app.post('/cards', (req, res) => {
 * @returns Devuelve un mensaje confirmando la eliminación de la carta o un mensaje de error si la carta no se encuentra.
 */
 app.delete('/cards', (req, res) => {
-const { usuario, cartaId } = req.query;
-GestorCartas.eliminarCarta(usuario as string, parseInt(cartaId!.toString()), (error, response) => {
-  if (error) {
-    res.status(404).json({ error: error.message });
-  } else {
-    res.json({ message: response });
-  }
-});
+  const { usuario, cartaId } = req.query;
+  GestorCartas.eliminarCarta(usuario as string, parseInt(cartaId!.toString()), (error, response) => {
+    if (error) {
+      res.status(404).json({ error: error.message });
+    } else {
+      res.json({ message: response });
+    }
+  });
 });
 
 /**
@@ -96,4 +97,3 @@ app.patch('/cards', (req, res) => {
 app.listen(3000, () => {
 console.log('Server is up on port 3000');
 });
-``

@@ -1,0 +1,1 @@
+{"id":123,"name":"CartaTest3","cost":10003,"color":"Negro","type":"Artefacto","rarity":"Rara","rules":"Reglas de Black Lotus"}

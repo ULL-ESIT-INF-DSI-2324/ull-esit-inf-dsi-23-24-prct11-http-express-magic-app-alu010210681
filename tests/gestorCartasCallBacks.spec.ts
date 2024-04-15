@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { Carta, CartaCriatura, CartaPlaneswalker, Color, TipoCarta, Rareza} from '../src/AppCartasMagic/Carta.js'
-import { GestorCartas } from '../src/AppCartasMagic/GestorCartas.js';
+import { GestorCartas } from '../src/AppCartasMagic/GestorCartasCallBack.js';
 import fs from "fs";
 
 describe('GestorCartas', function() {
