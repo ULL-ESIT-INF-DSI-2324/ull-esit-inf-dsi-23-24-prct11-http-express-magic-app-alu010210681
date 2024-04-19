@@ -21,7 +21,7 @@ jobs:
     - name: Installing dependencies
       run: npm ci
     - name: Execute Express Server
-      run: npm run dist/Express.js
+      run: node dist/Express.js
     - name: Generating coverage information
       run: npm run coverage
     - name: Coveralls GitHub Action
