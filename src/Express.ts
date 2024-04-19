@@ -90,6 +90,18 @@ app.patch('/cards', (req, res) => {
 });
 
 /**
+ * Aplica un manejador para todas las rutas y métodos HTTP no especificados.
+ * Este manejador intercepta cualquier petición a rutas no manejadas y responde
+ * con un código de estado HTTP 501, indicando que el método no está implementado.
+ * 
+ * @param {*} _ - El objeto de la solicitud HTTP (no utilizado en este manejador).
+ * @param {Response} res - El objeto de respuesta HTTP utilizado para enviar la respuesta.
+ */
+app.all('*', (_, res) => {
+  res.status(501).send();
+});
+
+/**
 * @route LISTEN
 * @description Inicia el servidor y escucha en el puerto 3000.
 * @returns Log de consola que indica que el servidor está activo en el puerto 3000.

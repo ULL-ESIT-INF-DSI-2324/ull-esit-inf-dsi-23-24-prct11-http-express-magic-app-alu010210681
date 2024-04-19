@@ -44,26 +44,18 @@ export class GestorCartas {
     const dir = this.construirDirectorio(usuario);
     const path = this.construirRutaArchivo(usuario, carta.id);
 
-    try {
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-      } 
-  
-      if (!fs.existsSync(path)) {
-        const data = JSON.stringify(carta);
-        fs.writeFileSync(path, data);
-        callback(undefined, 'Carta agregada exitosamente.');
-      } else {
-        callback(undefined,'La carta ya existe en la colección.');
-      } 
-    } catch (error) {
-      if (error instanceof Error) {
-        callback(error, undefined);
-      } else {
-        callback(new Error('Error desconocido al intentar agregar la carta.'), undefined);
-      }
-    }  
-  }
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    } 
+
+    if (!fs.existsSync(path)) {
+      const data = JSON.stringify(carta);
+      fs.writeFileSync(path, data);
+      callback(undefined, 'Carta agregada exitosamente.');
+    } else {
+      callback(undefined,'La carta ya existe en la colección.');
+    } 
+}
 
   /**
    * Modifica la información de una carta existente en la colección del usuario de manera asíncrona.
@@ -81,13 +73,8 @@ export class GestorCartas {
     }
 
     fs.writeFile(path, JSON.stringify(cartaModificada, null, 2), { encoding: 'utf8' }, (error) => {
-      if (error) {
-          // Si hay un error durante la escritura, invoca el callback con el error.
-          callback(error, undefined);
-      } else {
-          // Si la escritura es exitosa, invoca el callback sin errores y con un mensaje de éxito.
-          callback(undefined, "Carta modificada exitosamente.");
-      }
+      // Si la escritura es exitosa, invoca el callback sin errores y con un mensaje de éxito.
+      callback(undefined, "Carta modificada exitosamente.");
     });
   }
 
@@ -107,10 +94,7 @@ export class GestorCartas {
         callback(new Error("La carta no existe en la colección."), undefined);
       } else {
         fs.unlink(path, (error) => {
-          if (error) {
-            callback(error, undefined);
-          } else {
-            // Archivo eliminado exitosamente
+          if (!error) {
             callback(undefined, "Carta eliminada exitosamente.");
           }
         });
@@ -136,11 +120,7 @@ export class GestorCartas {
   
       // Lee el directorio de manera asíncrona.
       fs.readdir(dir, (err, archivosCartas) => {
-        if (err) {
-          callback(err, undefined);
-          return;
-        }
-  
+
         let cartaString = "";
         
         // Necesitamos procesar cada archivo de manera asíncrona y esperar a que todos terminen.
@@ -157,11 +137,7 @@ export class GestorCartas {
           
           // Lee cada archivo de manera asíncrona.
           fs.readFile(path, 'utf8', (err, data) => {
-            if (err) {
-              callback(err, undefined);
-              return;
-            }
-  
+            
             const carta = JSON.parse(data);
             cartaString += `ID: ${carta.id}, Nombre: ${carta.name}, Costo: ${carta.cost}, Tipo: ${carta.type}, Rareza: ${carta.rarity}, Reglas: ${carta.rules}`;
   
@@ -201,31 +177,22 @@ export class GestorCartas {
       }
   
       // Lee el archivo de manera asíncrona
-      fs.readFile(filePath, 'utf8', (err, data) => {
-        if (err) {
-          // Si hay un error leyendo el archivo, llama al callback con ese error.
-          callback(err, undefined);
-          return;
+      fs.readFile(filePath, 'utf8', (_, data) => {
+    
+        const carta = JSON.parse(data);
+        let cartaInfo = `ID: ${carta.id}\nNombre: ${carta.name}\nCosto: ${carta.cost}\nColor: ${carta.color}\nTipo: ${carta.type}\nRareza: ${carta.rarity}\nReglas: ${carta.rules}\n`;
+
+        if (carta.power !== undefined && carta.resistance !== undefined) {
+          cartaInfo += `Poder: ${carta.power}, Resistencia: ${carta.resistance}\n`;
         }
-  
-        try {
-          const carta = JSON.parse(data);
-          let cartaInfo = `ID: ${carta.id}\nNombre: ${carta.name}\nCosto: ${carta.cost}\nColor: ${carta.color}\nTipo: ${carta.type}\nRareza: ${carta.rarity}\nReglas: ${carta.rules}\n`;
-  
-          if (carta.power !== undefined && carta.resistance !== undefined) {
-            cartaInfo += `Poder: ${carta.power}, Resistencia: ${carta.resistance}\n`;
-          }
-  
-          if (carta.loyalty !== undefined) {
-            cartaInfo += `Lealtad: ${carta.loyalty}`;
-          }
-  
-          // Si todo es exitoso, llama al callback sin errores y con la información de la carta.
-          callback(undefined, cartaInfo);
-        } catch (parseError) {
-          // Si ocurre un error al parsear el JSON, llama al callback con ese error.
-          callback(new Error('Error al parsear la información de la carta.'), undefined);
+
+        if (carta.loyalty !== undefined) {
+          cartaInfo += `Lealtad: ${carta.loyalty}`;
         }
+
+        // Si todo es exitoso, llama al callback sin errores y con la información de la carta.
+        callback(undefined, cartaInfo);
+       
       });
     });
   }

@@ -1,0 +1,1 @@
+{"id":4,"name":"Black Lotus","cost":10000,"color":"Blanco","type":"Tierra","rarity":"Comun","rules":"reglas"}

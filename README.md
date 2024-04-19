@@ -51,8 +51,45 @@ Los objetivos esperados de la aplicación de gestión de colecciones de cartas s
 
 ## Configuración del Servidor Express
 
-
-
+1. GET /cards
+    - Objetivo: Obtener información sobre una carta específica o todas las cartas de un usuario.
+    - Parámetros: usuario (requerido), cartaId (opcional).
+    - Comportamiento: 
+      - Si se proporciona cartaId, busca y devuelve la información de esa carta específica.
+      - Si no se proporciona cartaId, lista todas las cartas del usuario.
+    - Respuestas:
+      - 200: Operación exitosa, retorna los datos solicitados.
+      - 404: Carta específica no encontrada.
+      - 500: Error interno del servidor al listar cartas.
+2. POST /cards
+    - Objetivo: Añadir una nueva carta a la colección de un usuario.
+    - Parámetros: usuario (en query), cuerpo de la petición contiene la carta a añadir.
+    - Comportamiento: Añade una nueva carta a la colección del usuario, verificando que no existan duplicados.
+    - Respuestas:
+      - 200: Carta añadida exitosamente.
+      - 400: Error debido a datos incorrectos o problemas al añadir la carta.
+3. DELETE /cards
+    - Objetivo: Eliminar una carta específica de la colección de un usuario.
+    - Parámetros: usuario y cartaId (ambos en query).
+    - Comportamiento: Elimina la carta específica del sistema.
+    - Respuestas:
+      - 200: Carta eliminada exitosamente.
+      - 404: Carta no encontrada.
+4. PATCH /cards
+    - Objetivo: Modificar la información de una carta existente en la colección de un usuario.
+    - Parámetros: usuario (en query) y la información actualizada de la carta en el cuerpo de la petición.
+    - Comportamiento: Actualiza los datos de una carta existente.
+    - Respuestas:
+      - 200: Carta modificada exitosamente.
+      - 400: Error debido a datos incorrectos o problemas al modificar la carta.
+5. Manejador General para Rutas No Especificadas
+    - Objetivo: Capturar cualquier petición a rutas no definidas en el servidor.
+    - Comportamiento: Responde con un código de estado HTTP 501, indicando que el método no está implementado.
+    - Respuesta:
+      - 501: Método no implementado.
+6. LISTEN
+    - Objetivo: Iniciar el servidor y escuchar en el puerto 3000.
+    - Comportamiento: Lanza el servidor y muestra un mensaje en consola indicando que está activo.
 
 # <span style="color: #7253ed;">Referencias</span>
 
