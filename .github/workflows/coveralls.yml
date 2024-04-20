@@ -20,9 +20,24 @@ jobs:
         node-version: 21.x
     - name: Installing dependencies
       run: npm ci
+    - name: Start server
+      run: |
+        node dist/Express.js &
+        echo $! > .pidfile
+      env:
+        CI: true
+    - name: Wait for server
+      run: |
+        while ! curl --silent http://localhost:3000; do
+          sleep 1
+        done
     - name: Generating coverage information
       run: npm run coverage
     - name: Coveralls GitHub Action
       uses: coverallsapp/github-action@v2.2.3
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Stop server
+      run: |
+        kill $(cat .pidfile)

@@ -19,6 +19,17 @@ jobs:
           node-version: 19.x
       - name: Installing dependencies
         run: npm i
+      - name: Start server
+        run: |
+          node dist/Express.js &
+          echo $! > .pidfile
+        env:
+          CI: true
+      - name: Wait for server
+        run: |
+          while ! curl --silent http://localhost:3000; do
+            sleep 1
+          done
       - name: Generating coverage report
         run: npm run coverage
       - name: SonarCloud Scan
