@@ -22,5 +22,18 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - run: node dist/Express.js
+      - name: Start server
+        run: |
+          node dist/Express.js &
+          echo $! > .pidfile
+        env:
+          CI: true
+      - name: Wait for server
+        run: |
+          while ! curl --silent http://localhost:3000; do
+            sleep 1
+          done
       - run: npm test
+      - name: Stop server
+        run: |
+          kill $(cat .pidfile)
