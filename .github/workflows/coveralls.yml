@@ -26,7 +26,3 @@ jobs:
       uses: coverallsapp/github-action@v2.2.3
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Ejecutar servidor Express
-      run: node dist/express.js
-      env:
-        PORT: 3000
